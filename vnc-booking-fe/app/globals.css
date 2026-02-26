@@ -110,3 +110,24 @@
 .section-content {
   @apply container mx-auto px-4 md:px-6;
 }
+
+/* Fix Clerk component text visibility */
+.cl-card,
+.cl-card *,
+.cl-modalContent,
+.cl-modalContent *,
+.cl-userButtonPopoverCard,
+.cl-userButtonPopoverCard *,
+.cl-userProfile-root,
+.cl-userProfile-root *,
+.cl-signIn-root,
+.cl-signIn-root *,
+.cl-signUp-root,
+.cl-signUp-root * {
+  color: #1a1a2e !important;
+}
+
+.cl-userButtonPopoverFooter p,
+.cl-userButtonPopoverFooter a {
+  color: #666 !important;
+}

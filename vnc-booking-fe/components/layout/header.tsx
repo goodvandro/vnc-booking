@@ -38,7 +38,7 @@ export default function Header({ t, currentLanguage, setCurrentLanguage, isLangu
     setIsOpen(false)
   }
 
-  const NavLinks = ({ mobile = false, onLinkClick = () => {} }) => (
+  const NavLinks = ({ mobile = false, onLinkClick = () => { } }) => (
     <>
       <Link
         href="#guest-houses"
@@ -89,6 +89,13 @@ export default function Header({ t, currentLanguage, setCurrentLanguage, isLangu
         }}
       >
         {t.contact}
+      </Link>
+      <Link
+        href="/my-bookings"
+        className={`${mobile ? "block py-2 px-4 text-base" : ""} text-sm font-medium hover:underline underline-offset-4`}
+        onClick={() => onLinkClick()}
+      >
+        📋 Minhas Reservas
       </Link>
     </>
   )
