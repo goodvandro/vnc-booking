@@ -1,0 +1,131 @@
+name: Deploy to Production
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        app:
+          - name: vnc-booking-fe
+            path: vnc-booking-fe
+          - name: vnc-booking-fe-admin
+            path: vnc-booking-fe-admin
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 10.13.1
+
+      - name: Install dependencies
+        working-directory: ${{ matrix.app.path }}
+        run: pnpm install --frozen-lockfile
+
+      - name: Run build
+        working-directory: ${{ matrix.app.path }}
+        run: pnpm build
+        env:
+          NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: ${{ secrets.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY }}
+          CLERK_SECRET_KEY: ${{ secrets.CLERK_SECRET_KEY }}
+          NEXT_PUBLIC_STRAPI_URL: ${{ secrets.NEXT_PUBLIC_STRAPI_URL }}
+          STRAPI_ADMIN_TOKEN: ${{ secrets.STRAPI_ADMIN_TOKEN }}
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+
+  deploy:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to Docker Registry
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      # Frontend público
+      - name: Build and push vnc-booking-fe
+        uses: docker/build-push-action@v5
+        with:
+          context: ./vnc-booking-fe
+          push: true
+          tags: |
+            ${{ secrets.DOCKER_USERNAME }}/vnc-booking-fe:latest
+            ${{ secrets.DOCKER_USERNAME }}/vnc-booking-fe:${{ github.sha }}
+          build-args: |
+            NEXT_PUBLIC_STRAPI_URL=${{ secrets.NEXT_PUBLIC_STRAPI_URL }}
+            NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=${{ secrets.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY }}
+          cache-from: type=gha,scope=booking-fe
+          cache-to: type=gha,mode=max,scope=booking-fe
+
+      # Admin panel
+      - name: Build and push vnc-booking-fe-admin
+        uses: docker/build-push-action@v5
+        with:
+          context: ./vnc-booking-fe-admin
+          push: true
+          tags: |
+            ${{ secrets.DOCKER_USERNAME }}/vnc-booking-fe-admin:latest
+            ${{ secrets.DOCKER_USERNAME }}/vnc-booking-fe-admin:${{ github.sha }}
+          build-args: |
+            NEXT_PUBLIC_STRAPI_URL=${{ secrets.NEXT_PUBLIC_STRAPI_URL }}
+          cache-from: type=gha,scope=booking-admin
+          cache-to: type=gha,mode=max,scope=booking-admin
+
+      - name: Deploy to server
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          script: |
+            # Pull latest images
+            docker pull ${{ secrets.DOCKER_USERNAME }}/vnc-booking-fe:latest
+            docker pull ${{ secrets.DOCKER_USERNAME }}/vnc-booking-fe-admin:latest
+
+            # Deploy Frontend
+            docker stop vnc-booking-fe || true
+            docker rm vnc-booking-fe || true
+            docker run -d --name vnc-booking-fe \
+              -p ${{ secrets.APP_PORT }}:3000 \
+              -e NODE_ENV=production \
+              -e NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=${{ secrets.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY }} \
+              -e CLERK_SECRET_KEY=${{ secrets.CLERK_SECRET_KEY }} \
+              -e NEXT_PUBLIC_CLERK_SIGN_IN_URL=${{ secrets.NEXT_PUBLIC_CLERK_SIGN_IN_URL }} \
+              -e NEXT_PUBLIC_CLERK_SIGN_UP_URL=${{ secrets.NEXT_PUBLIC_CLERK_SIGN_UP_URL }} \
+              -e NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL=${{ secrets.NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL }} \
+              -e NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL=${{ secrets.NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL }} \
+              -e NEXT_PUBLIC_STRAPI_URL=${{ secrets.NEXT_PUBLIC_STRAPI_URL }} \
+              -e STRAPI_ADMIN_TOKEN=${{ secrets.STRAPI_ADMIN_TOKEN }} \
+              ${{ secrets.DOCKER_USERNAME }}/vnc-booking-fe:latest
+
+            # Deploy Admin
+            docker stop vnc-booking-fe-admin || true
+            docker rm vnc-booking-fe-admin || true
+            docker run -d --name vnc-booking-fe-admin \
+              -p ${{ secrets.ADMIN_APP_PORT }}:3001 \
+              -e NODE_ENV=production \
+              -e NEXT_PUBLIC_STRAPI_URL=${{ secrets.NEXT_PUBLIC_STRAPI_URL }} \
+              -e STRAPI_ADMIN_TOKEN=${{ secrets.STRAPI_ADMIN_TOKEN }} \
+              -e JWT_SECRET=${{ secrets.JWT_SECRET }} \
+              ${{ secrets.DOCKER_USERNAME }}/vnc-booking-fe-admin:latest
