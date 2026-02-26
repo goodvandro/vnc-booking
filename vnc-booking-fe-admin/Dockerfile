@@ -21,11 +21,9 @@ COPY . .
 # Desabilitar telemetry durante build
 ENV NEXT_TELEMETRY_DISABLED 1
 
-# Variáveis necessárias para build do Clerk
-ARG NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
-ARG CLERK_SECRET_KEY
-ENV NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_Ym9zcy1nbG93d29ybS00LmNsZXJrLmFjY291bnRzLmRldiQ
-ENV CLERK_SECRET_KEY=$CLERK_SECRET_KEY
+# Variáveis necessárias para build
+ARG NEXT_PUBLIC_STRAPI_URL
+ENV NEXT_PUBLIC_STRAPI_URL=$NEXT_PUBLIC_STRAPI_URL
 
 # Build da aplicação
 RUN pnpm build
@@ -50,9 +48,9 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
 USER nextjs
 
-EXPOSE 3000
+EXPOSE 3001
 
-ENV PORT 3000
+ENV PORT 3001
 ENV HOSTNAME "0.0.0.0"
 
 # Comando para iniciar a aplicação
