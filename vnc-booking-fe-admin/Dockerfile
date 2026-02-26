@@ -19,11 +19,14 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
 # Desabilitar telemetry durante build
-ENV NEXT_TELEMETRY_DISABLED 1
+ENV NEXT_TELEMETRY_DISABLED=1
 
 # Variáveis necessárias para build
 ARG NEXT_PUBLIC_STRAPI_URL
 ENV NEXT_PUBLIC_STRAPI_URL=$NEXT_PUBLIC_STRAPI_URL
+
+# Garantir que a pasta public existe
+RUN mkdir -p public
 
 # Build da aplicação
 RUN pnpm build
@@ -32,8 +35,8 @@ RUN pnpm build
 FROM base AS runner
 WORKDIR /app
 
-ENV NODE_ENV production
-ENV NEXT_TELEMETRY_DISABLED 1
+ENV NODE_ENV=production
+ENV NEXT_TELEMETRY_DISABLED=1
 
 # Criar usuário não-root
 RUN addgroup --system --gid 1001 nodejs
@@ -50,8 +53,8 @@ USER nextjs
 
 EXPOSE 3001
 
-ENV PORT 3001
-ENV HOSTNAME "0.0.0.0"
+ENV PORT=3001
+ENV HOSTNAME="0.0.0.0"
 
 # Comando para iniciar a aplicação
 CMD ["node", "server.js"]

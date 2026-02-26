@@ -19,13 +19,18 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
 # Desabilitar telemetry durante build
-ENV NEXT_TELEMETRY_DISABLED 1
+ENV NEXT_TELEMETRY_DISABLED=1
 
 # Variáveis necessárias para build do Clerk
 ARG NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
 ARG CLERK_SECRET_KEY
-ENV NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_Ym9zcy1nbG93d29ybS00LmNsZXJrLmFjY291bnRzLmRldiQ
+ARG NEXT_PUBLIC_STRAPI_URL
+ENV NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=$NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
 ENV CLERK_SECRET_KEY=$CLERK_SECRET_KEY
+ENV NEXT_PUBLIC_STRAPI_URL=$NEXT_PUBLIC_STRAPI_URL
+
+# Garantir que a pasta public existe
+RUN mkdir -p public
 
 # Build da aplicação
 RUN pnpm build
@@ -34,8 +39,8 @@ RUN pnpm build
 FROM base AS runner
 WORKDIR /app
 
-ENV NODE_ENV production
-ENV NEXT_TELEMETRY_DISABLED 1
+ENV NODE_ENV=production
+ENV NEXT_TELEMETRY_DISABLED=1
 
 # Criar usuário não-root
 RUN addgroup --system --gid 1001 nodejs
@@ -52,8 +57,8 @@ USER nextjs
 
 EXPOSE 3000
 
-ENV PORT 3000
-ENV HOSTNAME "0.0.0.0"
+ENV PORT=3000
+ENV HOSTNAME="0.0.0.0"
 
 # Comando para iniciar a aplicação
 CMD ["node", "server.js"]
