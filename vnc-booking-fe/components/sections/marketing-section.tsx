@@ -75,7 +75,7 @@ export default function MarketingSection({ t }: MarketingSectionProps) {
         </div>
         <div className="text-center mt-8 md:mt-12">
           <Button asChild size="lg" className="w-full sm:w-auto">
-            <Link href="#guest-houses">{t.startYourJourney}</Link>
+            <Link href="#car-rental">{t.startYourJourney}</Link>
           </Button>
         </div>
       </div>
