@@ -3,6 +3,8 @@ services:
     build:
       context: ./vnc-booking-fe
       dockerfile: Dockerfile
+      args:
+        - NEXT_PUBLIC_STRAPI_URL=${NEXT_PUBLIC_STRAPI_URL}
     container_name: vnc-booking-fe
     ports:
       - "3000:3000"
@@ -24,6 +26,8 @@ services:
     build:
       context: ./vnc-booking-fe-admin
       dockerfile: Dockerfile
+      args:
+        - NEXT_PUBLIC_STRAPI_URL=${NEXT_PUBLIC_STRAPI_URL}
     container_name: vnc-booking-fe-admin
     ports:
       - "3001:3001"
