@@ -106,10 +106,30 @@ export default function GuestHousesSection({
               </p>
             </div>
           </div>
-          <div className="text-center py-12">
-            <p className="text-muted-foreground text-lg">
-              No guest houses available at the moment. Please check back later.
-            </p>
+          {/* Coming Soon Promo */}
+          <div className="max-w-4xl mx-auto">
+            <div className="relative overflow-hidden rounded-2xl shadow-2xl">
+              <img
+                src="/guest-house-coming-soon.png"
+                alt="Guest House - Coming Soon"
+                className="w-full h-[300px] sm:h-[400px] md:h-[500px] object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+              <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-8 md:p-12 text-white">
+                <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-amber-500/90 rounded-full text-sm font-semibold mb-4 animate-pulse">
+                  <span className="w-2 h-2 bg-white rounded-full"></span>
+                  Em Breve
+                </div>
+                <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3">
+                  Guest Houses de Excelência
+                </h3>
+                <p className="text-base sm:text-lg text-white/90 max-w-2xl leading-relaxed">
+                  Estamos a preparar uma seleção exclusiva de guest houses com conforto premium,
+                  localizações privilegiadas e experiências únicas. Fique atento — em breve
+                  poderá reservar o seu refúgio perfeito.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -163,11 +183,10 @@ export default function GuestHousesSection({
                     {[...Array(5)].map((_, i) => (
                       <Star
                         key={i}
-                        className={`w-4 h-4 ${
-                          i < Math.floor(gh.rating)
+                        className={`w-4 h-4 ${i < Math.floor(gh.rating)
                             ? "fill-yellow-500"
                             : "fill-gray-200"
-                        }`}
+                          }`}
                       />
                     ))}
                     <span className="text-muted-foreground ml-1">

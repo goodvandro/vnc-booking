@@ -128,7 +128,7 @@ export default function CarRentalSection({
             </p>
           </div>
         </div>
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 max-w-7xl mx-auto">
+        <div className="flex flex-wrap justify-center gap-8 max-w-6xl mx-auto">
           {cars.map((car: Car) => {
             const images: string[] = [];
 
@@ -143,10 +143,10 @@ export default function CarRentalSection({
             }
 
             return (
-              <Card key={car.id} className="flex flex-col overflow-hidden">
+              <Card key={car.id} className="flex flex-col overflow-hidden w-full sm:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.5rem)] min-w-[300px] shadow-lg hover:shadow-xl transition-shadow duration-300">
                 <ImageSlider images={images} alt={car.title} />
                 <CardHeader className="pb-2">
-                  <CardTitle className="text-lg sm:text-xl">
+                  <CardTitle className="text-lg sm:text-xl lg:text-2xl">
                     {car.title}
                   </CardTitle>
                   <CardDescription className="flex items-center gap-1 text-sm flex-wrap">
@@ -164,7 +164,7 @@ export default function CarRentalSection({
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="flex-1 pt-0">
-                  <p className="text-xl sm:text-2xl font-bold">
+                  <p className="text-2xl sm:text-3xl font-bold">
                     €{car.price}
                     <span className="text-sm sm:text-base font-normal text-muted-foreground">
                       {t.perDay}
@@ -173,7 +173,7 @@ export default function CarRentalSection({
                 </CardContent>
                 <CardFooter className="pt-0">
                   <Button
-                    className="w-full"
+                    className="w-full text-base py-5"
                     onClick={() =>
                       handleRentNowClick({
                         id: car.id,

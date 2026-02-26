@@ -89,8 +89,8 @@ export default function HomePage() {
       />
       <main className="flex-1">
         <HeroSection t={t} />
-        <GuestHousesSection t={t} handleBookNowClick={handleBookNowClick} />
         <CarRentalSection t={t} handleRentNowClick={handleRentNowClick} />
+        <GuestHousesSection t={t} handleBookNowClick={handleBookNowClick} />
         <MarketingSection t={t} />
         <AboutUsSection t={t} />
         <NewsletterSection t={t} user={user as User | null | undefined} />
