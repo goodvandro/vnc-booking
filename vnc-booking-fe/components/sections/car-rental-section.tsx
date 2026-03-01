@@ -114,14 +114,13 @@ export default function CarRentalSection({
               <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-8 md:p-12 text-white">
                 <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-amber-500/90 rounded-full text-sm font-semibold mb-4 animate-pulse">
                   <span className="w-2 h-2 bg-white rounded-full"></span>
-                  Em Breve
+                  {t.comingSoonBadge}
                 </div>
                 <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3">
-                  Frota Premium ao Seu Dispor
+                  {t.carPromoTitle}
                 </h3>
                 <p className="text-base sm:text-lg text-white/90 max-w-2xl leading-relaxed">
-                  Estamos a preparar uma frota exclusiva de veículos para tornar a sua viagem
-                  inesquecível. Conforto, segurança e estilo — em breve disponível para reserva.
+                  {t.carPromoText}
                 </p>
               </div>
             </div>

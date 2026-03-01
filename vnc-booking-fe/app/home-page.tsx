@@ -11,6 +11,7 @@ import AboutUsSection from "@/components/sections/about-us-section";
 import NewsletterSection from "@/components/sections/newsletter-section";
 import ContactSection from "@/components/sections/contact-section";
 import BackToTopButton from "@/components/common/back-to-top-button";
+import WhatsAppButton from "@/components/common/whatsapp-button";
 import GuestHouseBookingModal from "@/components/common/guest-house-booking-modal";
 import CarRentalModal from "@/components/common/car-rental-modal";
 import { translations } from "@/lib/translations";
@@ -98,6 +99,7 @@ export default function HomePage() {
       </main>
       <Footer t={t} />
       <BackToTopButton t={t} show={showBackToTopButton} onClick={scrollToTop} />
+      <WhatsAppButton t={t} />
 
       {/* Guest House Booking Modal */}
       <GuestHouseBookingModal

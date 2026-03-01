@@ -85,6 +85,17 @@ export const translations = {
     signInToAccount: "Sign in to your account",
     createAccount: "Create your account",
     signInRequired: "Please sign in to make a booking",
+    // WhatsApp
+    whatsappSupport: "VNC Support",
+    whatsappHelp: "Need help? Chat with us on WhatsApp! We're available to answer your questions.",
+    whatsappStart: "Start conversation",
+    whatsappDefaultMessage: "Hello! I would like more information about your services.",
+    // Coming soon promos
+    comingSoonBadge: "Coming Soon",
+    guestHousePromoTitle: "Premium Guest Houses",
+    guestHousePromoText: "We are preparing an exclusive selection of guest houses with premium comfort, privileged locations and unique experiences. Stay tuned — you'll soon be able to book your perfect retreat.",
+    carPromoTitle: "Premium Fleet at Your Service",
+    carPromoText: "We are preparing an exclusive fleet of vehicles to make your trip unforgettable. Comfort, safety and style — coming soon for booking.",
   },
   fr: {
     siteTitle: "VNC Réservation",
@@ -176,6 +187,17 @@ export const translations = {
     signInToAccount: "Connectez-vous à votre compte",
     createAccount: "Créez votre compte",
     signInRequired: "Veuillez vous connecter pour effectuer une réservation",
+    // WhatsApp
+    whatsappSupport: "Support VNC",
+    whatsappHelp: "Besoin d'aide ? Discutez avec nous sur WhatsApp ! Nous sommes disponibles pour répondre à vos questions.",
+    whatsappStart: "Démarrer la conversation",
+    whatsappDefaultMessage: "Bonjour ! Je souhaite obtenir plus d'informations sur vos services.",
+    // Coming soon promos
+    comingSoonBadge: "Bientôt Disponible",
+    guestHousePromoTitle: "Maisons d'Hôtes d'Excellence",
+    guestHousePromoText: "Nous préparons une sélection exclusive de maisons d'hôtes avec un confort premium, des emplacements privilégiés et des expériences uniques. Restez connecté — vous pourrez bientôt réserver votre refuge parfait.",
+    carPromoTitle: "Flotte Premium à Votre Service",
+    carPromoText: "Nous préparons une flotte exclusive de véhicules pour rendre votre voyage inoubliable. Confort, sécurité et style — bientôt disponible à la réservation.",
   },
   pt: {
     siteTitle: "VNC Reserva",
@@ -264,6 +286,17 @@ export const translations = {
     signInToAccount: "Entre na sua conta",
     createAccount: "Crie sua conta",
     signInRequired: "Por favor, faça login para fazer uma reserva",
+    // WhatsApp
+    whatsappSupport: "Suporte VNC",
+    whatsappHelp: "Precisa de ajuda? Fale connosco pelo WhatsApp! Estamos disponíveis para responder às suas questões.",
+    whatsappStart: "Iniciar conversa",
+    whatsappDefaultMessage: "Olá! Gostaria de obter mais informações sobre os vossos serviços.",
+    // Coming soon promos
+    comingSoonBadge: "Em Breve",
+    guestHousePromoTitle: "Guest Houses de Excelência",
+    guestHousePromoText: "Estamos a preparar uma seleção exclusiva de guest houses com conforto premium, localizações privilegiadas e experiências únicas. Fique atento — em breve poderá reservar o seu refúgio perfeito.",
+    carPromoTitle: "Frota Premium ao Seu Dispor",
+    carPromoText: "Estamos a preparar uma frota exclusiva de veículos para tornar a sua viagem inesquecível. Conforto, segurança e estilo — em breve disponível para reserva.",
   },
 }
 

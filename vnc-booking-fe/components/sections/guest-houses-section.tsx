@@ -118,15 +118,13 @@ export default function GuestHousesSection({
               <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-8 md:p-12 text-white">
                 <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-amber-500/90 rounded-full text-sm font-semibold mb-4 animate-pulse">
                   <span className="w-2 h-2 bg-white rounded-full"></span>
-                  Em Breve
+                  {t.comingSoonBadge}
                 </div>
                 <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3">
-                  Guest Houses de Excelência
+                  {t.guestHousePromoTitle}
                 </h3>
                 <p className="text-base sm:text-lg text-white/90 max-w-2xl leading-relaxed">
-                  Estamos a preparar uma seleção exclusiva de guest houses com conforto premium,
-                  localizações privilegiadas e experiências únicas. Fique atento — em breve
-                  poderá reservar o seu refúgio perfeito.
+                  {t.guestHousePromoText}
                 </p>
               </div>
             </div>
@@ -184,8 +182,8 @@ export default function GuestHousesSection({
                       <Star
                         key={i}
                         className={`w-4 h-4 ${i < Math.floor(gh.rating)
-                            ? "fill-yellow-500"
-                            : "fill-gray-200"
+                          ? "fill-yellow-500"
+                          : "fill-gray-200"
                           }`}
                       />
                     ))}
