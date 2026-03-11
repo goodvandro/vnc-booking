@@ -15,6 +15,20 @@ const nextConfig = {
   },
   output: "standalone",
   experimental: {},
+  // SEO: Forçar indexação (sobrescrever qualquer X-Robots-Tag: noindex do proxy)
+  async headers() {
+    return [
+      {
+        source: "/(.*)",
+        headers: [
+          {
+            key: "X-Robots-Tag",
+            value: "index, follow",
+          },
+        ],
+      },
+    ];
+  },
 };
 
 export default nextConfig;
